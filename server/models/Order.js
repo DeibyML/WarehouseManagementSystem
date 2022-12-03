@@ -15,11 +15,11 @@ const orderSchema = new Schema({
         required: true,
         default: "En Proceso"
     },
-    precio:{
+    price:{
         type: mongoose.Decimal128,
         required: true
     },
-    idCliente:{
+    idClient:{
         type: Number,
         required: true
     }
