@@ -1,7 +1,6 @@
-import { MyContext } from '../context/postContext';
+import React from 'react';
 
 export const Products = () => {
-  console.log(MyContext);
   
   return (
     <div>Products Page</div>
