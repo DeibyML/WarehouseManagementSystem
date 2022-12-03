@@ -1,6 +1,7 @@
 table {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
+  text-align: center;
   width: 100%;
 }
 
@@ -21,7 +22,6 @@ table tr:hover {
 table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: center;
-  background-color: #04aa6d;
+  background-color: #0476aa;
   color: white;
 }
