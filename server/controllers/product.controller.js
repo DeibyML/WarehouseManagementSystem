@@ -76,7 +76,7 @@ export const deleteProduct =  async (req, res) =>{
 
 export const getProduct = async (req, res) =>{
     try {
-        let product = await Product.findOne({id:req.params.id});
+        let product = await Product.findOne({id:req.params.idProduct});
         res.json(product);
 
     } catch (error) {

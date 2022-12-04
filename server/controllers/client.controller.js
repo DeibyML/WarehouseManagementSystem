@@ -70,7 +70,7 @@ export const deleteClient =  async (req, res) =>{
 
 export const getClient = async (req, res) =>{
     try {
-        let client = await Client.findOne({id:req.params.id});
+        let client = await Client.findOne({id:req.params.idClient});
         res.json(client);
 
     } catch (error) {

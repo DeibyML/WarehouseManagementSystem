@@ -21,7 +21,22 @@ const orderSchema = new mongoose.Schema({
     clientName:{
         type: String,
         required: true
-    }
+    },
+    products:[{
+        idProduct:{
+            type: mongoose.Types.ObjectId,
+        },
+        nameProduct:{
+            type:String
+        },
+        quantity:{
+            type: Number        
+        },
+        price:{
+            type: mongoose.Decimal128
+        }
+    }]
+
 })
 
 export default mongoose.model('Order', orderSchema) 

@@ -7,8 +7,8 @@ export const getOrders = async (req, res) =>{
 
 export const createOrder = async (req, res) =>{
     try{
-        const {id,date, status, price, clientName} = req.body;
-        const newOrder = new Order({id,date, status, price, clientName});
+        const {id,date, status, price, clientName,products} = req.body;
+        const newOrder = new Order({id,date, status, price, clientName, products});
         await newOrder.save().then((orderCreated)=>{
             return res.status(201).json({
                 'success': true,
@@ -34,7 +34,8 @@ export const updateOrder =  async (req, res) =>{
             date:req.body.date,
             status:req.body.status,
             price:req.body.price,
-            clientName:req.body.idClient
+            clientName:req.body.idClient,
+            products:[products]
           }).exec().then((orderUpdated) =>{
             return res.status(200).json({
                 'success': true,
@@ -67,7 +68,7 @@ export const deleteOrder =  async (req, res) =>{
 
 export const getOrder = async (req, res) =>{
     try {
-        let order = await Order.findOne({id:req.params.id});
+        let order = await Order.findOne({id:req.params.idOrder});
         res.json(order);
 
     } catch (error) {
