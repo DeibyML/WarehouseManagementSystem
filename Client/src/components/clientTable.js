@@ -1,77 +1,6 @@
-/*import { useTable, useSortBy, usePagination } from "react-table";
-import useRows from "./rowsClients";
-import useColumns from "./columsClient";
-
-
-export const ClientTable = () => {
-  const columns = useColumns();
-  const data = useRows();
-  const table = useTable({ columns, data }, useSortBy, usePagination);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    prepareRow,
-  } = table;
-  return (
-    <>
-      <table {...getTableProps}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className={
-                    column.isSorted
-                      ? column.isSortedDesc
-                        ? "desc"
-                        : "asc"
-                      : ""
-                  }
-                >
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <div>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          Previous
-        </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          Next
-        </button>
-      </div>
-    </>
-  );
-};
-*/
 import React from "react";
 import ReactDOM from "react-dom";
+import useClients from "./rowsClients";
 import CRUDTable, {
   Fields,
   Field,
@@ -82,7 +11,7 @@ import CRUDTable, {
 import "./table.css";
 
 export const ClientTable = () => {
-  let clients = [
+  /*let clients = [
     {
       id: "1",
       Name: "Felipe",
@@ -102,8 +31,8 @@ export const ClientTable = () => {
       PostalCode: "L3A",
       City: "Mississsauga",
       Province: "ON",
-    },
-  ];
+    },*/
+  let clients = useClients();
 
   const SORTERS = {
     NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
@@ -250,3 +179,75 @@ export const ClientTable = () => {
     </div>
   );
 };
+
+/*import { useTable, useSortBy, usePagination } from "react-table";
+import useRows from "./rowsClients";
+import useColumns from "./columsClient";
+
+
+export const ClientTable = () => {
+  const columns = useColumns();
+  const data = useRows();
+  const table = useTable({ columns, data }, useSortBy, usePagination);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    prepareRow,
+  } = table;
+  return (
+    <>
+      <table {...getTableProps}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={
+                    column.isSorted
+                      ? column.isSortedDesc
+                        ? "desc"
+                        : "asc"
+                      : ""
+                  }
+                >
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+
+        <tbody {...getTableBodyProps()}>
+          {page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          Previous
+        </button>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          Next
+        </button>
+      </div>
+    </>
+  );
+}; */

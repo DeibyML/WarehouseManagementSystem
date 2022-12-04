@@ -7,7 +7,7 @@ export default function useRows() {
   const rows = useMemo(
     () => [
       {
-        Id: "1",
+        id: "1",
         Name: "Felipe",
         Telephone: "6479014847",
         Email: "felipe961031@gmail.com",
@@ -17,7 +17,7 @@ export default function useRows() {
         Province: "ON",
       },
       {
-        Id: "2",
+        id: "2",
         Name: "Deiby",
         Telephone: "00014455",
         Email: "deiby@gmail.com",

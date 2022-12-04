@@ -1,33 +1,49 @@
-import { Route, Routes, Link } from 'react-router-dom';
-import './nav-bar.css'
-import Nav from 'react-bootstrap/Nav';
-import { Clients, HomePage, NotFound, Orders, Products } from '../../pages/Index';
-import { Navbar } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Route, Routes, Link } from "react-router-dom";
+import "./nav-bar.css";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import {
+  Clients,
+  HomePage,
+  NotFound,
+  Orders,
+  Products,
+} from "../../pages/Index";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
 
 export const NavBar = () => {
   return (
     <>
-      <Nav className="justify-content-center mt-4" activeKey="/">
-        <Navbar.Brand>
-          <Link to="/" className="cursor-pointer mr-4">
-            <FontAwesomeIcon icon={faHouseLaptop} />
-          </Link>
-        </Navbar.Brand>
-        <Nav.Item className="mr-2">
-          <Link to="/">Home</Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/products">Products</Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/customers">Customers</Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Link to="/orders">Orders</Link>
-        </Nav.Item>
-      </Nav>
+      <Navbar bg="black" variant="dark" className="justify-content-center">
+        <Nav activeKey="/">
+          <Navbar.Brand>
+            <Link to="/" className="cursor-pointer ">
+              <FontAwesomeIcon icon={faHouseLaptop} />
+            </Link>
+          </Navbar.Brand>
+          <Nav.Item>
+            <Link to="/" className="text">
+              Home
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="/products" className="text">
+              Products
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="/customers" className="text">
+              Customers
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link to="/orders" className="text">
+              Orders
+            </Link>
+          </Nav.Item>
+        </Nav>
+      </Navbar>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
