@@ -7,43 +7,77 @@ export const getClients = async (req, res) =>{
 
 export const createClient = async (req, res) =>{
     try{
-        const {id,name, quantity, category, location, price } = req.body;
-        const newClient = new Client({id, name, quantity, category, location, price});
-        await newClient.save();
-        return res.json({
-            'status':200,
-            'message': 'Client created successfully!'
+        const {id,name, telephone, email, address, postalCode, city, province } = req.body;
+        const newClient = new Client({id, name, telephone, email, address, postalCode, city, province});
+        await newClient.save().then((clientCreated)=>{
+            return res.status(201).json({
+                'success': true,
+                'message': 'Client created successfully!',
+                'client': clientCreated
+            });
         });
     }catch(error){
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
-export const updateClient =  (req, res) =>{
-    res.json({
-        status: 'Updated client with Id:' + req.params.idClient
-    });
+export const updateClient =  async (req, res) =>{
+    try{
+        await Client.findByIdAndUpdate(req.body._id,{
+            id:req.body.id,
+            name:req.body.name,
+            telephone:req.body.telephone,
+            email:req.body.email,
+            address:req.body.address,
+            postalCode: req.body.postalCode,
+            city: req.body.city,
+            province: req.body.province
+          }).exec().then((clientUpdated) =>{
+            return res.status(201).json({
+                'success': true,
+                'message': 'Client with id '+req.body.id+' updated successfully!',
+                'client': clientUpdated
+            }); 
+        });
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
+    }
 }
 
 export const deleteClient =  async (req, res) =>{
     try {
-        await Client.findByIdAndRemove(req.params.idClient);
-        res.json("Client deleted successfully!");
-
+        await Client.findByIdAndDelete(req.body._id);
+        return res.status(200).json({
+            'success': true,
+            'message': 'Product deleted successfully!'
+        });
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
 export const getClient = async (req, res) =>{
     try {
-        let client = await Client.findById(req.params.idClient);
+        let client = await Client.findOne({id:req.params.id});
         res.json(client);
 
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
+import mongoose from "mongoose";
 
-const orderSchema = new Schema({
+const orderSchema = new mongoose.Schema({
     id:{
         type: Number, 
         required: true
@@ -19,8 +18,10 @@ const orderSchema = new Schema({
         type: mongoose.Decimal128,
         required: true
     },
-    idClient:{
-        type: Number,
+    clientName:{
+        type: String,
         required: true
     }
 })
+
+export default mongoose.model('Order', orderSchema) 

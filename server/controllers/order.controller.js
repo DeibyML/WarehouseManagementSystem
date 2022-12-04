@@ -7,43 +7,74 @@ export const getOrders = async (req, res) =>{
 
 export const createOrder = async (req, res) =>{
     try{
-        const {id,date, status, price, idClient} = req.body;
-        const newOrder = new Order({id,date, status, price, idClient});
-        await newOrder.save();
-        return res.json({
-            'status':200,
-            'message': 'Order created successfully!'
-        });
+        const {id,date, status, price, clientName} = req.body;
+        const newOrder = new Order({id,date, status, price, clientName});
+        await newOrder.save().then((orderCreated)=>{
+            return res.status(201).json({
+                'success': true,
+                'message': 'Order created successfully!',
+                'order': orderCreated
+            });
+        }
+
+        );
     }catch(error){
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
-export const updateOrder =  (req, res) =>{
-    res.json({
-        status: 'Updated order with Id:' + req.params.idOrder
-    });
+export const updateOrder =  async (req, res) =>{
+    try{
+        await Order.findOneAndUpdate({id: req.body.id},{
+            id:req.body.id,
+            date:req.body.date,
+            status:req.body.status,
+            price:req.body.price,
+            clientName:req.body.idClient
+          }).exec().then((orderUpdated) =>{
+            return res.status(200).json({
+                'success': true,
+                'message': 'Order with id '+req.body.id+' updated successfully!',
+                'product': productUpdated
+            }); 
+        });
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
+    }
 }
 
 export const deleteOrder =  async (req, res) =>{
     try {
-        await Order.findByIdAndRemove(req.params.idOrder);
+        await Order.findByIdAndDelete(req.body._id);
         res.json("Order deleted successfully!");
 
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
 export const getOrder = async (req, res) =>{
     try {
-        let order = await Order.findById(req.params.idOrder);
+        let order = await Order.findOne({id:req.params.id});
         res.json(order);
 
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }

@@ -9,41 +9,81 @@ export const createProduct = async (req, res) =>{
     try{
         const {id,name, quantity, category, location, price } = req.body;
         const newProduct = new Product({id, name, quantity, category, location, price});
-        await newProduct.save();
-        return res.json({
-            'status':200,
-            'message': 'Product created successfully!'
-        });
+        await newProduct.save().then((productCreated)=>{
+            return res.status(201).json({
+                'success': true,
+                'message': 'Product created successfully!',
+                'product': productCreated
+            });
+        }
+
+        );
+   
     }catch(error){
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
-export const updateProduct =  (req, res) =>{
-    res.json({
-        status: 'Updated product with Id:' + req.params.idProduct
-    });
+export const updateProduct =  async (req, res) =>{
+    try{
+        await Product.findByIdAndUpdate(req.body._id,{
+            id:req.body.id,
+            name:req.body.name,
+            quantity:req.body.quantity,
+            category:req.body.category,
+            location:req.body.location,
+            price: req.body.price
+          }).exec().then((productUpdated) =>{
+            return res.status(200).json({
+                'success': true,
+                'message': 'Product with id '+req.body.id+' updated successfully!',
+                'product': productUpdated
+            });    
+        });
+
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
+    }
+    
 }
 
 export const deleteProduct =  async (req, res) =>{
     try {
-        await Product.findByIdAndRemove(req.params.idProduct);
-        res.json("Product deleted successfully!");
+        await Product.findByIdAndDelete(req.body._id);
+
+            return res.status(200).json({
+                'success': true,
+                'message': 'Product deleted successfully!'
+            });
+
 
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }
 
 export const getProduct = async (req, res) =>{
     try {
-        let product = await Product.findById(req.params.idProduct);
+        let product = await Product.findOne({id:req.params.id});
         res.json(product);
 
     } catch (error) {
-        res.json(error);
-        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
     }
 }

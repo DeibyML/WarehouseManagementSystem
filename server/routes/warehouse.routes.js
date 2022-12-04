@@ -9,18 +9,18 @@ router.get('/products', getProducts);
 router.post('/products', createProduct);
 router.put('/products', updateProduct);
 router.delete('/products', deleteProduct);
-router.get('/products/:id', getProduct);
+router.get('/products/:idProduct', getProduct);
 
 router.get('/clients', getClients);
 router.post('/clients', createClient);
 router.put('/clients', updateClient);
 router.delete('/clients', deleteClient);
-router.get('/clients/:id', getClient);
+router.get('/clients/:idClient', getClient);
 
 router.get('/orders', getOrders);
 router.post('/orders', createOrder);
 router.put('/orders', updateOrder);
 router.delete('/orders', deleteOrder);
-router.get('/orders/:id', getOrder);
+router.get('/orders/:idOrder', getOrder);
 
 export default router;

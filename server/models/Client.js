@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-const {Schema} = mongoose;
+import mongoose from "mongoose";
 
-const clientSchema = new Schema({
+const clientSchema = new mongoose.Schema({
     id:{
         type: Number,
         required: true
@@ -31,3 +30,5 @@ const clientSchema = new Schema({
         type: String
     }
 })
+
+export default mongoose.model('Client', clientSchema) 
