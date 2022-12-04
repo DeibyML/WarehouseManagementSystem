@@ -1,7 +1,7 @@
 import { Route, Routes, Link } from 'react-router-dom';
 import './nav-bar.css'
 import Nav from 'react-bootstrap/Nav';
-import { Clients, HomePage, NotFound, Orders, Products } from '../pages/Index';
+import { Clients, HomePage, NotFound, Orders, Products } from '../../pages/Index';
 import { Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";

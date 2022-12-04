@@ -64,5 +64,6 @@
     "babel-loader": "^9.1.0",
     "sass": "^1.56.1",
     "webpack": "^5.75.0"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
