@@ -1,11 +1,6 @@
-import './App.css';
+import "./App.css";
+import { NavBar } from "./components/NavBar/nav-bar";
 
-// Pages
-import { NavBar } from './components/NavBar/nav-bar';
-
-export const App = () =>
-  <div className='container'>
-    <NavBar />
-  </div>
+export const App = () => <NavBar></NavBar>;
 
 export default App;
