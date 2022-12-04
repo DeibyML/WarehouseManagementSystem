@@ -1,9 +1,9 @@
-import { Route, Routes, Link } from 'react-router-dom';
-import './nav-bar.css'
-import Nav from 'react-bootstrap/Nav';
-import { Clients, HomePage, NotFound, Orders, Products } from '../pages/Index';
-import { Navbar } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Route, Routes, Link } from "react-router-dom";
+import "./nav-bar.css";
+import Nav from "react-bootstrap/Nav";
+import { Clients, HomePage, NotFound, Orders, Products } from "../pages/Index";
+import { Navbar } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
 
 export const NavBar = () => {
@@ -15,7 +15,7 @@ export const NavBar = () => {
             <FontAwesomeIcon icon={faHouseLaptop} />
           </Link>
         </Navbar.Brand>
-        <Nav.Item className='mr-2'>
+        <Nav.Item className="mr-2">
           <Link to="/">Home</Link>
         </Nav.Item>
         <Nav.Item>
@@ -36,7 +36,5 @@ export const NavBar = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
-  )
-}
-
-
+  );
+};

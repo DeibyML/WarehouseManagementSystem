@@ -1,5 +1,6 @@
 module.exports = function (api) {
-    return {
-        plugins: ['macros'],
-    }
-}
+  api.cache.forever();
+  return {
+    plugins: ["macros"],
+  };
+};
