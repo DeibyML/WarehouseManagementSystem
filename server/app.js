@@ -1,7 +1,9 @@
-import express from 'express'
-import postsRoutes from './routes/warehouse.routes.js' 
+import express from 'express';
+import postsRoutes from './routes/warehouse.routes.js';
+import cors from 'cors';
 
 const app = express()
+app.use(cors());
 //Middlewares
 app.use(express.json())
 

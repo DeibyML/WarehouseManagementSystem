@@ -1,8 +1,20 @@
+import { Product } from "./product";
+
 export interface Order {
-    Id: number;
-    Date: Date;
-    Status: string;
-    Price: number;
-    Address: string;
-    CustomerName: string;
+    id: number;
+    _id?: string;
+    date: string;
+    status: string;
+    price: {
+        $numberDecimal: string
+    };
+    clientName: string;
+    products: OrderProduct[];
 }
+
+interface OrderProduct extends Product {
+    quantity: number;
+}
+
+
+

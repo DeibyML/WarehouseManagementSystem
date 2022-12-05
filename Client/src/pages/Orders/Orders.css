@@ -1,0 +1,27 @@
+div.title {
+    background-color: cadetblue;
+    height: 3rem;
+    text-align: center;
+    padding-top: 5px;
+    width: 100%;
+}
+.card {
+    border-right: none;
+    border-bottom: none;
+}
+.card > .card-body {
+    box-shadow: 5px 5px 5px black;
+    border-radius: 15px;
+}
+
+div.new {
+    width: 100%;
+    margin-top: 5px;
+    float: right;
+}
+
+.new button {
+    float: right;
+    margin-top: .5rem;
+    margin-right: 1rem;
+}

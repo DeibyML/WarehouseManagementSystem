@@ -1,10 +1,12 @@
-import { Decimal128 } from "mongoose";
 
 export interface Product {
-    Id: number;
-    Name: string;
-    Quantity: number;
-    Category: string;
-    Location: string;
-    Price: Decimal128
+    idProduct: string;
+    _id?: string;
+    name: string;
+    quantity: number;
+    category: string;
+    location: string;
+    price: {
+        $numberDecimal: string;
+    }
 }

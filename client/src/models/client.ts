@@ -1,10 +1,10 @@
 export interface Client {
-    Id: number;
-    Name: string;
-    Telephone: string;
-    Email: string;
-    Address: string;
-    PostalCode: string;
-    City: string;
-    Province: string;
+    id: number;
+    name: string;
+    telephone: string;
+    email: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    province: string;
 }
