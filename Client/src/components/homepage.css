@@ -14,7 +14,7 @@
 }
 .footer {
   text-align: center;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 1rem;
   margin: 0;
 }
@@ -28,5 +28,5 @@ body {
   /* background-color: rgb(155, 155, 155); */
 }
 .body {
-  color: white;
+  color: rgb(0, 0, 0);
 }

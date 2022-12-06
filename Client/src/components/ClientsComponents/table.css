@@ -148,8 +148,7 @@
   border-collapse: collapse;
   box-shadow: 2px 2px 5px 0 #c7c7c7;
 }
-.crud-table__row {
-}
+
 .crud-table__header-cell {
   cursor: pointer;
   background: rgba(2, 71, 132, 0.778);

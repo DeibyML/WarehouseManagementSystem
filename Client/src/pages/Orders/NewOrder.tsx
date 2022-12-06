@@ -20,8 +20,12 @@ export type ProductsAdded = {
 }
 
 export const NewOrder = ({ show, close }: NewOrderProps) => {
-
-   const OrderStatuses: string[] = ['Pending', 'In progress', 'Finished', 'Canceled'];
+   const OrderStatuses: string[] = [
+      "Pending",
+      "In progress",
+      "Finished",
+      "Canceled",
+   ];
    const [customers, setCustomers] = useState([]);
 
    const [products, setProducts] = useState([]);
@@ -51,21 +55,23 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
       if (quantity <= 0) return;
 
       // Updating new quantity to each product
-      const newItems = productsAdded.map(prod => {
+      const newItems = productsAdded.map((prod) => {
          // Find item to update new quantity and validate max quantity
          if (prod.id == item.id && prod.maxQuantity >= quantity) {
-            return { ...prod, quantity: quantity }
+            return { ...prod, quantity: quantity };
          }
 
          return prod;
       });
       setProductsAdded(newItems);
-   }
+   };
 
    useEffect(() => {
       // Getting all customers
-      const getCustomers = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_CLIENT);
-      const getProducts = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT);
+      const getCustomers = async () =>
+         await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_CLIENT);
+      const getProducts = async () =>
+         await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT);
 
       // Setting and mapping the customer names.
       getCustomers().then((resp) => {
@@ -73,9 +79,16 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
       });
 
       getProducts().then((resp) => {
-         if (resp?.data) setProducts(resp.data.map((prod: Product) => ({ value: `${prod.name} ${prod.price}each. Stock:(${prod.quantity})`, id: prod._id, maxQuantity: prod.quantity })));
+         if (resp?.data) {
+            setProducts(resp.data.map((prod: Product) => ({
+               value: `${prod.name} - $${prod.price} ea.  Stock: ${prod.quantity}`,
+               id: prod._id,
+               maxQuantity: prod.quantity
+            })));
+         }
       });
    }, []);
+
 
 
    return (
@@ -109,7 +122,10 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
                </InputGroup>
             </Form.Group>
             <hr />
-            <ProductDetail handlerProducts={handlingQuantityItems} type='create' products={productsAdded}></ProductDetail>
+            {/* Calling ProductDetail Component sending props. */}
+            <ProductDetail handlerProducts={handlingQuantityItems}
+               type='create'
+               products={productsAdded}></ProductDetail>
          </Modal.Body>
          <Modal.Footer>
             <Button variant="secondary" onClick={close}>
