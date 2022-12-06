@@ -1,4 +1,5 @@
 import Order from '../models/Order.js'
+import Product from '../models/Product.js'
 
 export const getOrders = async (req, res) =>{
     const orders = await Order.find()
@@ -7,17 +8,30 @@ export const getOrders = async (req, res) =>{
 
 export const createOrder = async (req, res) =>{
     try{
-        const {id,date, status, price, clientName,products} = req.body;
-        const newOrder = new Order({id,date, status, price, clientName, products});
-        await newOrder.save().then((orderCreated)=>{
+        const {id,date, status, total, clientName,products} = req.body;
+        const newOrder = new Order({id,date, status, total, clientName, products});
+        await newOrder
+        .save()
+        .then((orderCreated)=>{
             return res.status(201).json({
                 'success': true,
                 'message': 'Order created successfully!',
                 'order': orderCreated
             });
-        }
-
-        );
+        })
+        .then(()=>{
+            //Update products
+            products.forEach(async element=>{
+                let filter = {id:element.id};
+                let product = await Product.findOne(filter);
+                let newQuantity = product.quantity - element.quantity;
+                //Updating document in MongoDb
+                await Product.updateOne(filter,newQuantity);
+                //Updating document in Mongoose
+                product.quantity = newQuantity;
+                await product.save();
+            })
+        });
     }catch(error){
         return res.status(500).json({
             success: false,
@@ -33,7 +47,7 @@ export const updateOrder =  async (req, res) =>{
             id:req.body.id,
             date:req.body.date,
             status:req.body.status,
-            price:req.body.price,
+            total:req.body.total,
             clientName:req.body.idClient,
             products:[products]
           }).exec().then((orderUpdated) =>{

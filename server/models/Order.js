@@ -14,8 +14,8 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: "En Proceso"
     },
-    price:{
-        type: mongoose.Decimal128,
+    total:{
+        type: Number,
         required: true
     },
     clientName:{
@@ -23,17 +23,17 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     products:[{
-        idProduct:{
-            type: mongoose.Types.ObjectId,
+        id:{
+            type:Number,
         },
-        nameProduct:{
+        name:{
             type:String
         },
         quantity:{
             type: Number        
         },
         price:{
-            type: mongoose.Decimal128
+            type: Number
         }
     }]
 
