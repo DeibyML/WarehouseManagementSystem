@@ -1,6 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import useClients from "./rowsClients";
+import { useEffect, useState } from "react";
+import { Constants } from "../../constants";
+import axios from "axios";
+//import { Client } from "../models/client";
 import CRUDTable, {
   Fields,
   Field,
@@ -11,28 +12,24 @@ import CRUDTable, {
 import "./table.css";
 
 export const ClientTable = () => {
-  /*let clients = [
-    {
-      id: "1",
-      Name: "Felipe",
-      Telephone: "6479014847",
-      Email: "felipe961031@gmail.com",
-      Address: "1484 Torrington",
-      PostalCode: "L5V",
-      City: "Mississsauga",
-      Province: "ON",
-    },
-    {
-      id: "2",
-      Name: "Deiby",
-      Telephone: "00014455",
-      Email: "deiby@gmail.com",
-      Address: "1484 pronvincial rd",
-      PostalCode: "L3A",
-      City: "Mississsauga",
-      Province: "ON",
-    },*/
-  let clients = useClients();
+  const [client, setClients] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(Constants.SERVER_URL + Constants.CONTROLLER_CLIENT)
+      .then((res) => {
+        console.log("Data cargada", res.data);
+        setClients(res.data);
+      });
+  }, []);
+  let clientes = client.map((data, index) => {
+    return (
+      <>
+        {data.id},{data.name}
+      </>
+    );
+  });
+  let clients = { clientes };
 
   const SORTERS = {
     NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
@@ -77,13 +74,13 @@ export const ClientTable = () => {
     },
     update: (data) => {
       const client = clients.find((t) => t.id === data.id);
-      client.Name = data.Name;
-      client.Telephone = data.Telephone;
-      client.Email = data.Email;
-      client.Address = data.Address;
-      client.PostalCode = data.PostalCode;
-      client.City = data.City;
-      client.Province = data.Province;
+      client.name = data.name;
+      client.telephone = data.telephone;
+      client.email = data.email;
+      client.address = data.address;
+      client.postalCode = data.postalCode;
+      client.city = data.city;
+      client.province = data.province;
       return Promise.resolve(client);
     },
     delete: (data) => {
@@ -99,29 +96,29 @@ export const ClientTable = () => {
 
   const validation = (values) => {
     const errors = {};
-    if (!values.Name) {
-      errors.Name = "Please, provide client's name";
+    if (!values.name) {
+      errors.name = "Please, provide client's name";
     }
 
-    if (!values.Telephone) {
-      errors.Telephone = "Please, provide client's telephone";
+    if (!values.telephone) {
+      errors.telephone = "Please, provide client's telephone";
     }
-    if (!values.Address) {
-      errors.Address = "Please, provide client's address";
-    }
-
-    if (!values.PostalCode) {
-      errors.PostalCode = "Please, provide client's postal code";
-    }
-    if (!values.Email) {
-      errors.Email = "Please, provide client's email";
+    if (!values.address) {
+      errors.address = "Please, provide client's address";
     }
 
-    if (!values.City) {
-      errors.City = "Please, provide client's city";
+    if (!values.postalCode) {
+      errors.postalCode = "Please, provide client's postal code";
     }
-    if (!values.Province) {
-      errors.Province = "Please, provide client's province";
+    if (!values.email) {
+      errors.email = "Please, provide client's email";
+    }
+
+    if (!values.city) {
+      errors.city = "Please, provide client's city";
+    }
+    if (!values.province) {
+      errors.province = "Please, provide client's province";
     }
 
     return errors;
@@ -135,13 +132,13 @@ export const ClientTable = () => {
       >
         <Fields>
           <Field name="id" label="Id" hideInCreateForm hideInUpdateForm />
-          <Field name="Name" label="Name" placeholder="Name" />
-          <Field name="Telephone" label="Telephone" placeholder="123456789" />
-          <Field name="Email" label="Email" placeholder="mail@mail.com" />
-          <Field name="Address" label="Address" placeholder="address" />
-          <Field name="PostalCode" label="Postal Codel" placeholder="XXX XXX" />
-          <Field name="City" label="City" placeholder="City" />
-          <Field name="Province" label="Province" placeholder="Province" />
+          <Field name="name" label="Name" placeholder="Name" />
+          <Field name="telephone" label="Telephone" placeholder="123456789" />
+          <Field name="email" label="Email" placeholder="mail@mail.com" />
+          <Field name="address" label="Address" placeholder="address" />
+          <Field name="postalCode" label="Postal Codel" placeholder="XXX XXX" />
+          <Field name="city" label="City" placeholder="City" />
+          <Field name="province" label="Province" placeholder="Province" />
         </Fields>
         <CreateForm
           title="New Client"

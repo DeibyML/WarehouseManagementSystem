@@ -13,12 +13,12 @@ export const HomePage = () => {
         </header>
       </div>
       <div className="linea"></div>
-      <body className="body">
+      <body>
         <Container>
           <Row>
             <Col md={8}>
               {" "}
-              <section>
+              <section className="body">
                 <h2>about us</h2>
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
