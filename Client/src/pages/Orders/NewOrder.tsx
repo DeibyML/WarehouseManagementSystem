@@ -5,15 +5,16 @@ import { Client } from '../../models/client';
 import { Constants } from '../../constants'
 import { Product } from '../../models/product';
 import { Multiselect } from 'multiselect-react-dropdown';
-
+import ProductDetail from '../../components/ProductsDetail';
 
 type NewOrderProps = {
    show: boolean;
    close: any;
 }
-type ProductsAdded = {
+export type ProductsAdded = {
    quantity: number;
    product: string;
+   price: number;
    maxQuantity: number;
    id: string;
 }
@@ -27,9 +28,11 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
    const [productsAdded, setProductsAdded] = useState<ProductsAdded[]>([]);
 
    // Function to handle each product added at Order
-   const handlingProductsAdd = (items: { value: string, id: string, maxQuantity: number }[]) => {
+   const handlingProductsAdd = (items: { value: string, id: string, maxQuantity: number, price: number }[]) => {
+      debugger;
       let prods: ProductsAdded[] = items.map(prod => ({
          product: prod.value,
+         price: prod.price,
          maxQuantity: prod.maxQuantity,
          quantity: 1,
          id: prod.id
@@ -70,7 +73,7 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
       });
 
       getProducts().then((resp) => {
-         if (resp?.data) setProducts(resp.data.map((prod: Product) => ({ value: `${prod.name} (${prod.quantity})`, id: prod._id, maxQuantity: prod.quantity })));
+         if (resp?.data) setProducts(resp.data.map((prod: Product) => ({ value: `${prod.name} ${prod.price}each. Stock:(${prod.quantity})`, id: prod._id, maxQuantity: prod.quantity })));
       });
    }, []);
 
@@ -106,24 +109,7 @@ export const NewOrder = ({ show, close }: NewOrderProps) => {
                </InputGroup>
             </Form.Group>
             <hr />
-            {productsAdded && productsAdded.length > 0 &&
-               <Form.Group className="mb-3">
-                  <h5>Products detail:</h5>
-                  {
-                     productsAdded.map((prod, idx) => {
-                        return (
-                           <Form.Group>
-                              <InputGroup className="mb-3">
-                                 <InputGroup.Text>{prod.product}</InputGroup.Text>
-                                 <InputGroup.Text><Button onClick={() => handlingQuantityItems(prod, prod.quantity - 1)} variant="danger">-</Button></InputGroup.Text>
-                                 <Form.Control size='sm' value={prod.quantity} />
-                                 <InputGroup.Text><Button onClick={() => handlingQuantityItems(prod, prod.quantity + 1)} variant="success">+</Button></InputGroup.Text>
-                              </InputGroup>
-                           </Form.Group>
-                        )
-                     })
-                  }
-               </Form.Group>}
+            <ProductDetail handlerProducts={handlingQuantityItems} type='create' products={productsAdded}></ProductDetail>
          </Modal.Body>
          <Modal.Footer>
             <Button variant="secondary" onClick={close}>

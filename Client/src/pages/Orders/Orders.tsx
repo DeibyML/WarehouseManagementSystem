@@ -67,7 +67,7 @@ export const Orders = () => {
                       <hr />*/}
                       <Row>
                         <Col xs={6}><FontAwesomeIcon icon={faDollarSign} size="xs" /><strong> Order total:</strong></Col>
-                        <Col xs={6}>${order.price.$numberDecimal}</Col>
+                        <Col xs={6}>${order.total}</Col>
                       </Row>
                       <hr />
                       <Row>
@@ -79,7 +79,7 @@ export const Orders = () => {
                         <Col xs={6}><FontAwesomeIcon icon={faListNumeric} size="xs" /><strong> Products:</strong></Col>
                         <Col xs={6}>{ order.products?.map((prod, idx, array) => {
                           return (
-                            <span>{prod.name}{idx == array.length - 1 ? '.' : ','} </span>
+                            <p>{prod.name}{idx == array.length - 1 ? '.' : ','} </p>
                           )})}
                         </Col>
                       </Row>

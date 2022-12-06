@@ -5,9 +5,7 @@ export interface Order {
     _id?: string;
     date: string;
     status: string;
-    price: {
-        $numberDecimal: string
-    };
+    total: number;
     clientName: string;
     products: OrderProduct[];
 }
