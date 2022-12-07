@@ -1,5 +1,4 @@
 import {React, useEffect, useState} from 'react';
-import ReactDOM from "react-dom";
 import CRUDTable, {
   Fields,
   Field,
@@ -8,14 +7,12 @@ import CRUDTable, {
   DeleteForm,
 } from "react-crud-table";
 import "../../components/table.css";
-import { Product } from '../../models/product';
 import axios from 'axios';
 import { Constants } from '../../constants';
 
 export const Products = () => {
   
   let [productItems, setItems] = useState([]);
-  const [showCreate, setShowCreate] = useState(false);
   
   useEffect(() => {
      const getProducts = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT);
@@ -53,8 +50,6 @@ export const Products = () => {
 
     return sorter;
   };
-
-  let count = productItems.length;
   const service = {
     fetchItems: (payload) => {
       let result = Array.from(productItems);
@@ -62,11 +57,17 @@ export const Products = () => {
       return Promise.resolve(result);
     },
     create: async (product) => {
-      product.id = count +1;
+      // Assing new Id random
+      let newId = Math.floor(Math.random() * 1000);
+
+      // In case to be able to calculate next id, it adds +1 from the last item.
+      if (!!Number(productItems[productItems.length - 1]?.id)) {
+        newId = Number(productItems[productItems.length - 1]?.id) + 1;
+      }
+          product.id = newId;
       await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, product)
       .then((resp)=>{
         if(resp.data.status==="success")
-            count += 1;
             productItems.push({
               ...product
             });
@@ -106,22 +107,22 @@ export const Products = () => {
 
   const validation = (values) => {
     const errors = {};
-    if (!values.Name) {
-      errors.Name = "Please, provide product's name";
+    if (!values.name) {
+      errors.name = "Please, provide product's name";
     }
 
-    if (!values.Quantity) {
-      errors.Quantity = "Please, provide product's quantity";
+    if (!values.quantity) {
+      errors.quantity = "Please, provide product's quantity";
     }
-    if (!values.Category) {
-      errors.Category = "Please, provide product's category";
+    if (!values.category) {
+      errors.category = "Please, provide product's category";
     }
 
-    if (!values.Location) {
-      errors.Location = "Please, provide product's location";
+    if (!values.location) {
+      errors.location = "Please, provide product's location";
     }
-    if (!values.Price) {
-      errors.Price = "Please, provide product's price";
+    if (!values.price) {
+      errors.price = "Please, provide product's price";
     }
 
     return errors;
@@ -129,7 +130,7 @@ export const Products = () => {
 
   return (
     <div style={styles.container}>
-      {productItems?.length > 0 &&
+      {productItems?.length > 0 &&      
       <CRUDTable
         caption="Products"
         fetchItems={(payload) => service.fetchItems(payload)}
@@ -146,26 +147,9 @@ export const Products = () => {
           title="New Product"
           message="Add a new Product"
           trigger="Add Product"
-          onSubmit={(product) => service.create(product)}
+          onSubmit={(product) => {service.create(product); window.location.reload();}}
           submitText="ADD"
-          validate={(values) => {
-            const errors = {};
-            if (!values.name) {
-              errors.id = "Please, provide name";
-            }
-            if (!values.quantity) {
-              errors.id = "Please, provide quantity";
-            }
-            if (!values.category) {
-              errors.id = "Please, provide category";
-            }
-            if (!values.location) {
-              errors.id = "Please, provide location";
-            }
-            if (!values.price) {
-              errors.id = "Please, provide price";
-            }
-            return errors;}}
+          validate={(values) => validation(values)}
         />
 
         <UpdateForm
@@ -174,24 +158,7 @@ export const Products = () => {
           trigger="Update"
           onSubmit={(product) =>{service.update(product); window.location.reload();}}
           submitText="Update"
-          validate={(values) => {
-            const errors = {};
-            if (!values.name) {
-              errors.id = "Please, provide name";
-            }
-            if (!values.quantity) {
-              errors.id = "Please, provide quantity";
-            }
-            if (!values.category) {
-              errors.id = "Please, provide category";
-            }
-            if (!values.location) {
-              errors.id = "Please, provide location";
-            }
-            if (!values.price) {
-              errors.id = "Please, provide price";
-            }
-            return errors;}}
+          validate={(values) => validation(values)}
         />
 
         <DeleteForm
