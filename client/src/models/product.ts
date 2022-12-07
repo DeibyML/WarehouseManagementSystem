@@ -6,7 +6,5 @@ export interface Product {
     quantity: number;
     category: string;
     location: string;
-    price: {
-        $numberDecimal: string;
-    }
+    price: number;
 }
