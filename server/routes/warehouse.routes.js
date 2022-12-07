@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import {getProducts, createProduct, updateProduct, deleteProduct, getProduct, getMaxIdProduct} from '../controllers/product.controller.js';
+import {getProducts, createProduct, updateProduct, deleteProduct, getProduct} from '../controllers/product.controller.js';
 import {getClients, createClient, updateClient, deleteClient, getClient} from '../controllers/client.controller.js';
 import {getOrders, createOrder, updateOrder, deleteOrder, getOrder} from '../controllers/order.controller.js';
 
@@ -10,7 +10,6 @@ router.post('/products', createProduct);
 router.put('/products', updateProduct);
 router.delete('/products', deleteProduct);
 router.get('/products/:idProduct', getProduct);
-router.get('/max_id_product', getMaxIdProduct);
 
 router.get('/clients', getClients);
 router.post('/clients', createClient);
