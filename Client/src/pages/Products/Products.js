@@ -62,7 +62,14 @@ export const Products = () => {
       return Promise.resolve(result);
     },
     create: async (product) => {
-      product.id = count +1;
+      // Assing new Id random
+      let newId = Math.floor(Math.random() * 1000);
+
+      // In case to be able to calculate next id, it adds +1 from the last item.
+      if (!!Number(productItems[productItems.length - 1]?.id)) {
+        newId = Number(productItems[productItems.length - 1]?.id) + 1;
+      }
+          product.id = newId;
       await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, product)
       .then((resp)=>{
         if(resp.data.status==="success")
@@ -146,7 +153,7 @@ export const Products = () => {
           title="New Product"
           message="Add a new Product"
           trigger="Add Product"
-          onSubmit={(product) => service.create(product)}
+          onSubmit={(product) => {service.create(product); window.location.reload();}}
           submitText="ADD"
           validate={(values) => {
             const errors = {};
