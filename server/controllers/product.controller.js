@@ -88,3 +88,18 @@ export const getProduct = async (req, res) =>{
           });
     }
 }
+
+export const getMaxIdProduct = async(req, res) =>{
+    try {
+        let maxId = await Product.find().sort({id:-1}).limit(1);
+        //maxId += maxId.id + 1;
+        res.json(maxId);
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again.',
+            error: error.message,
+          });
+    }
+}

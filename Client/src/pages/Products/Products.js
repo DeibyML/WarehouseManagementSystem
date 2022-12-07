@@ -61,12 +61,16 @@ export const Products = () => {
       result = result.sort(getSorter(payload.sort));
       return Promise.resolve(result);
     },
-    create: (product) => {
-      count += 1;
-      productItems.push({
-        ...product,
-        id: count,
-      });
+    create: async (product) => {
+      debugger; await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, { product})
+      .then((resp)=>{
+        if(resp.data.status==="success")
+            count += 1;
+            productItems.push({
+              ...product,
+              id: count,
+            });
+        });
       return Promise.resolve(product);
     },
     update: async (data) => {
@@ -144,7 +148,24 @@ export const Products = () => {
           trigger="Add Product"
           onSubmit={(product) => service.create(product)}
           submitText="ADD"
-          validate={validation}
+          validate={(values) => {
+            const errors = {};
+            if (!values.name) {
+              errors.id = "Please, provide name";
+            }
+            if (!values.quantity) {
+              errors.id = "Please, provide quantity";
+            }
+            if (!values.category) {
+              errors.id = "Please, provide category";
+            }
+            if (!values.location) {
+              errors.id = "Please, provide location";
+            }
+            if (!values.price) {
+              errors.id = "Please, provide price";
+            }
+            return errors;}}
         />
 
         <UpdateForm
@@ -157,6 +178,18 @@ export const Products = () => {
             const errors = {};
             if (!values.name) {
               errors.id = "Please, provide name";
+            }
+            if (!values.quantity) {
+              errors.id = "Please, provide quantity";
+            }
+            if (!values.category) {
+              errors.id = "Please, provide category";
+            }
+            if (!values.location) {
+              errors.id = "Please, provide location";
+            }
+            if (!values.price) {
+              errors.id = "Please, provide price";
             }
             return errors;}}
         />
