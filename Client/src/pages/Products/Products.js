@@ -53,8 +53,6 @@ export const Products = () => {
 
     return sorter;
   };
-
-  let count = productItems.length;
   const service = {
     fetchItems: (payload) => {
       let result = Array.from(productItems);
@@ -73,7 +71,6 @@ export const Products = () => {
       await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, product)
       .then((resp)=>{
         if(resp.data.status==="success")
-            count += 1;
             productItems.push({
               ...product
             });
