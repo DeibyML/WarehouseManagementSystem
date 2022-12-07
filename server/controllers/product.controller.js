@@ -31,6 +31,7 @@ export const createProduct = async (req, res) =>{
 export const updateProduct =  async (req, res) =>{
     try{
         await Product.findByIdAndUpdate(req.body._id,{
+            _id: req.body._id,
             id:req.body.id,
             name:req.body.name,
             quantity:req.body.quantity,
@@ -40,8 +41,7 @@ export const updateProduct =  async (req, res) =>{
           }).exec().then((productUpdated) =>{
             return res.status(200).json({
                 'success': true,
-                'message': 'Product with id '+req.body.id+' updated successfully!',
-                'product': productUpdated
+                'message': 'Product with id '+req.body.id+' updated successfully!'
             });    
         });
 

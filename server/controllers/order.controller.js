@@ -43,7 +43,8 @@ export const createOrder = async (req, res) =>{
 
 export const updateOrder =  async (req, res) =>{
     try{
-        await Order.findOneAndUpdate({id: req.body.id},{
+        await Order.findByIdAndUpdate(req.body._id,{
+            _id: req.body._id,
             id:req.body.id,
             date:req.body.date,
             status:req.body.status,
@@ -53,8 +54,7 @@ export const updateOrder =  async (req, res) =>{
           }).exec().then((orderUpdated) =>{
             return res.status(200).json({
                 'success': true,
-                'message': 'Order with id '+req.body.id+' updated successfully!',
-                'product': productUpdated
+                'message': 'Order with id '+req.body.id+' updated successfully!'
             }); 
         });
     }catch(error){

@@ -28,6 +28,7 @@ export const createClient = async (req, res) =>{
 export const updateClient =  async (req, res) =>{
     try{
         await Client.findByIdAndUpdate(req.body._id,{
+            _id: req.body._id,
             id:req.body.id,
             name:req.body.name,
             telephone:req.body.telephone,
@@ -39,8 +40,7 @@ export const updateClient =  async (req, res) =>{
           }).exec().then((clientUpdated) =>{
             return res.status(201).json({
                 'success': true,
-                'message': 'Client with id '+req.body.id+' updated successfully!',
-                'client': clientUpdated
+                'message': 'Client with id '+req.body.id+' updated successfully!'
             }); 
         });
     }catch(error){

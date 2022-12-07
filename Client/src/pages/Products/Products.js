@@ -69,21 +69,27 @@ export const Products = () => {
       });
       return Promise.resolve(product);
     },
-    update: (data) => {
+    update: async (data) => {
       const product = productItems.find((t) => t.id === data.id);
-      product._id=data._id;
-      product.name = data.name;
-      product.quantity = data.quantity;
-      product.category = data.category;
-      product.location = data.location;
-      product.price = data.price;
+      await axios.put(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, data)
+      .then((resp)=>{
+        if(resp.data.status==="success"){
+          product._id=data._id;
+          product.name = data.name;
+          product.quantity = data.quantity;
+          product.category = data.category;
+          product.location = data.location;
+          product.price = data.price;
+          productItems = productItems.filter((t) => t._id !== product._id)
+        }   
+    });
       return Promise.resolve(product);
     },
     delete: async (data) => {
       const product = productItems.find((t) => t._id === data._id);
       await axios.delete(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, { data: {_id: data._id}})
       .then((resp)=>{
-        if(resp.data.status=="success")
+        if(resp.data.status==="success")
           productItems = productItems.filter((t) => t._id !== product._id)
     });
       return Promise.resolve(product);
@@ -118,7 +124,7 @@ export const Products = () => {
   };
 
   return (
-    <div id="container" style={styles.container}>
+    <div style={styles.container}>
       {productItems?.length > 0 &&
       <CRUDTable
         caption="Products"
@@ -147,7 +153,12 @@ export const Products = () => {
           trigger="Update"
           onSubmit={(product) =>{service.update(product); window.location.reload();}}
           submitText="Update"
-          validate={validation}
+          validate={(values) => {
+            const errors = {};
+            if (!values.name) {
+              errors.id = "Please, provide name";
+            }
+            return errors;}}
         />
 
         <DeleteForm
