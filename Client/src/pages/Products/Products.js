@@ -62,13 +62,13 @@ export const Products = () => {
       return Promise.resolve(result);
     },
     create: async (product) => {
-      debugger; await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, { product})
+      product.id = count +1;
+      await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, product)
       .then((resp)=>{
         if(resp.data.status==="success")
             count += 1;
             productItems.push({
-              ...product,
-              id: count,
+              ...product
             });
         });
       return Promise.resolve(product);
