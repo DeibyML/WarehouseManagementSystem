@@ -14,34 +14,12 @@ import "../table.css";
 export const ClientTable = () => {
   const servidor = Constants.SERVER_URL + Constants.CONTROLLER_CLIENT;
   let [clients, setClients] = useState([]);
-  const [status, setStatus] = useState();
-  const [name, setName] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState("");
 
   //Get Customers from Server
   useEffect(() => {
     const resp = async () => await axios.get(servidor);
     resp().then((res) => setClients(res.data));
   }, []);
-
-  const header = {
-    id: 3,
-    name: "Gato",
-    telephone: "123456",
-    email: "deiby@gmail.com",
-    address: "1484 valuevillage",
-    postalCode: "L5S",
-    city: "Mississsauga",
-    province: "ON",
-  };
-  function Enviar() {
-    alert("Hello!");
-  }
 
   const SORTERS = {
     NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
