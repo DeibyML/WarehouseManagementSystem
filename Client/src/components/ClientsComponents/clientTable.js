@@ -9,7 +9,7 @@ import CRUDTable, {
   UpdateForm,
   DeleteForm,
 } from "react-crud-table";
-import "./table.css";
+import "../table.css";
 
 export const ClientTable = () => {
   const [client, setClients] = useState([]);

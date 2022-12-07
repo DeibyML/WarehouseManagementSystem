@@ -68,8 +68,12 @@ export const updateOrder =  async (req, res) =>{
 
 export const deleteOrder =  async (req, res) =>{
     try {
-        await Order.findByIdAndDelete(req.body._id);
-        res.json("Order deleted successfully!");
+        await Order.findByIdAndRemove(req.body._id).exec().then(()=>{
+            return res.status(200).json({
+                'success': true,
+                'message': 'Client deleted successfully!'
+            });
+        });
 
     } catch (error) {
         return res.status(500).json({
