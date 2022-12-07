@@ -136,7 +136,7 @@ export const NewOrder = ({ show, close, newId, getOrders }: NewOrderProps) => {
 
       const response = await axios.post(Constants.SERVER_URL + Constants.CONTROLLER_ORDER, newOrder);
       if (response?.data?.success || response.statusText == 'statusText') {
-         // getOrders();
+         getOrders();
          closeModalAndResetForm();
       }
    }

@@ -3,7 +3,7 @@ import './Orders.css';
 import { Badge, Button, Card, ListGroup } from 'react-bootstrap';
 import { Order } from '../../models/order';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShop, faPerson, faDollarSign, faListNumeric, faPen, faTrash, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faShop, faPerson, faDollarSign, faListNumeric, faPen, faCheckCircle, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -96,7 +96,7 @@ export const Orders = () => {
                     </Card.Body>
                     <Card.Footer>
                       <Card.Link style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faPen} size="xs" /> Update</Card.Link>
-                      <Card.Link onClick={() => removeOrder(order.id)} style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faTrash} size="xs" /> Remove </Card.Link>
+                      <Card.Link onClick={() => removeOrder(order.id)} style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faCheckCircle} size="xs" /> Finished </Card.Link>
                     </Card.Footer>
                   </Card.Body>
                 </Card>
