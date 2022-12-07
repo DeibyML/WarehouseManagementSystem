@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Orders.css';
-import { Button, Card } from 'react-bootstrap';
+import { Badge, Button, Card, ListGroup } from 'react-bootstrap';
 import { Order } from '../../models/order';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShop, faPerson, faDollarSign, faListNumeric, faPen, faTrash, faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -12,22 +12,29 @@ import { Constants } from '../../constants';
 
 export const Orders = () => {
 
-  const [orderItems, setItems] = useState([]);
+  const [orders, setOrders] = useState([] as Order[]);
   const [showCreate, setShowCreate] = useState(false);
 
-  let newOrder = () => {
-    alert("come")
+  // Method to get all Orders.
+  const getOrders = async () => {
+    await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_ORDER).then(resp => {
+      if (resp.data) {
+        setOrders(resp.data);
+      }
+    });
   }
 
   useEffect(() => {
-    const getOrders = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_ORDER);
+    getOrders();
+  }, []);
 
-    getOrders().then(resp => {
-      if (resp.data) {
-        setItems(resp.data);
-      }
-    });
-  }, [])
+  // Assing new Id random
+  let newId: number = Math.floor(Math.random() * 1000);
+
+  // In case to be able to calculate next id, it adds +1 from the last item.
+  if (!!Number(orders[orders.length - 1]?.id)) {
+    newId = Number(orders[orders.length - 1]?.id) + 1;
+  }
 
   let removeOrder = (id: number) => {
     return toast(id.toString());
@@ -40,15 +47,15 @@ export const Orders = () => {
 
       <div className="new">
         <Button onClick={() => setShowCreate(true)} variant="outline-primary">New Order</Button>{' '}
-        <NewOrder show={showCreate} close={() => setShowCreate(false)}></NewOrder>
+        <NewOrder show={showCreate} close={() => setShowCreate(false)} getOrders={getOrders} newId={newId}></NewOrder>
       </div>
 
       <Row>
         {
-          orderItems?.map((order: Order) => {
+          orders?.map((order: Order, idx) => {
             return (
-              <Col key={order._id} style={{ margin: '1rem' }}>
-                <Card style={{ width: '17rem', minHeight: '12rem', textAlign: 'center' }}>
+              <Col key={idx + 1} style={{ margin: '1rem' }}>
+                <Card style={{ maxWidth: '17rem', minHeight: '12rem', textAlign: 'center' }}>
                   <Card.Body>
                     <Card.Title>Order #{order.id}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
@@ -60,11 +67,6 @@ export const Orders = () => {
                         <Col xs={6}>{order.clientName}</Col>
                       </Row>
                       <hr />
-                      {/* <Row>
-                        <Col xs={6}><FontAwesomeIcon icon={faHouse} size="xs" /><strong> Address:</strong></Col>
-                        <Col xs={6}>{order.Address}</Col>
-                      </Row> 
-                      <hr />*/}
                       <Row>
                         <Col xs={6}><FontAwesomeIcon icon={faDollarSign} size="xs" /><strong> Order total:</strong></Col>
                         <Col xs={6}>${order.total}</Col>
@@ -76,11 +78,19 @@ export const Orders = () => {
                       </Row>
                       <hr />
                       <Row>
-                        <Col xs={6}><FontAwesomeIcon icon={faListNumeric} size="xs" /><strong> Products:</strong></Col>
-                        <Col xs={6}>{ order.products?.map((prod, idx, array) => {
-                          return (
-                            <p>{prod.name}{idx == array.length - 1 ? '.' : ','} </p>
-                          )})}
+                        <Col xs={12}><FontAwesomeIcon icon={faListNumeric} size="xs" /><strong> Products:</strong></Col>
+                        <Col xs={12}><ListGroup as="ol" variant="flush" numbered>{
+                          order.products?.map((prod, idx, array) => {
+                            return (
+                              <ListGroup.Item className='d-flex justify-content-between align-items-start' key={idx + 1}>
+                                <div className="ms-2 me-auto">{prod.name}</div>
+                                <Badge bg="success" pill>
+                                  {prod.quantity}
+                                </Badge>
+                              </ListGroup.Item>
+                            )
+                          })}
+                        </ListGroup>
                         </Col>
                       </Row>
                     </Card.Body>

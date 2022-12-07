@@ -1,5 +1,3 @@
-import { Product } from "./product";
-
 export interface Order {
     id: number;
     _id?: string;
@@ -10,7 +8,8 @@ export interface Order {
     products: OrderProduct[];
 }
 
-interface OrderProduct extends Product {
+interface OrderProduct  {
+    name: string;
     quantity: number;
 }
 
