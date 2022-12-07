@@ -54,11 +54,14 @@ export const updateClient =  async (req, res) =>{
 
 export const deleteClient =  async (req, res) =>{
     try {
-        await Client.findByIdAndDelete(req.body._id);
-        return res.status(200).json({
-            'success': true,
-            'message': 'Product deleted successfully!'
+        await Client.findByIdAndRemove(req.body._id)
+        .exec().then(()=>{
+            return res.status(200).json({
+                'success': true,
+                'message': 'Client deleted successfully!'
+            });
         });
+        
     } catch (error) {
         return res.status(500).json({
             success: false,

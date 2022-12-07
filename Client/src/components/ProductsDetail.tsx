@@ -1,5 +1,4 @@
 import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
-import { FunctionExpression } from 'typescript';
 import { ProductsAdded } from '../pages/Orders/NewOrder';
 
 type ProductDetailProps = {

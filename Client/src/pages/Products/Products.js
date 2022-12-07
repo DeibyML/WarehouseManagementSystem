@@ -8,17 +8,17 @@ import CRUDTable, {
   DeleteForm,
 } from "react-crud-table";
 import "../../components/table.css";
-import { Product } from '../../models/order';
+import { Product } from '../../models/product';
 import axios from 'axios';
 import { Constants } from '../../constants';
 
 export const Products = () => {
   
-  const [productItems, setItems] = useState([]);
+  let [productItems, setItems] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   
   useEffect(() => {
-    const getProducts = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT);
+     const getProducts = async () => await axios.get(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT);
 
       getProducts().then(resp => {
       if (resp.data) {
@@ -26,6 +26,7 @@ export const Products = () => {
       }
     });
   }, [])
+
 
   const SORTERS = {
     NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
@@ -70,16 +71,21 @@ export const Products = () => {
     },
     update: (data) => {
       const product = productItems.find((t) => t.id === data.id);
-      product.Name = data.Name;
-      product.Quantity = data.Quantity;
-      product.Category = data.Category;
-      product.Location = data.Location;
-      product.Price = data.Price;
+      product._id=data._id;
+      product.name = data.name;
+      product.quantity = data.quantity;
+      product.category = data.category;
+      product.location = data.location;
+      product.price = data.price;
       return Promise.resolve(product);
     },
-    delete: (data) => {
-      const product = productItems.find((t) => t.id === data.id);
-      productItems = productItems.filter((t) => t.id !== product.id);
+    delete: async (data) => {
+      const product = productItems.find((t) => t._id === data._id);
+      await axios.delete(Constants.SERVER_URL + Constants.CONTROLLER_PRODUCT, { data: {_id: data._id}})
+      .then((resp)=>{
+        if(resp.data.status=="success")
+          productItems = productItems.filter((t) => t._id !== product._id)
+    });
       return Promise.resolve(product);
     },
   };
@@ -112,18 +118,19 @@ export const Products = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div id="container" style={styles.container}>
+      {productItems?.length > 0 &&
       <CRUDTable
         caption="Products"
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
           <Field name="id" label="Id" hideInCreateForm hideInUpdateForm />
-          <Field name="Name" label="Name" placeholder="Name" />
-          <Field name="Quantity" label="Quantity" placeholder="123456789" />
-          <Field name="Category" label="Category" placeholder="Category" />
-          <Field name="Location" label="Location" placeholder="Location" />
-          <Field name="Price" label="Price" placeholder="00.00" />
+          <Field name="name" label="Name" placeholder="Name" />
+          <Field name="quantity" label="Quantity" placeholder="123456789" />
+          <Field name="category" label="Category" placeholder="Category" />
+          <Field name="location" label="Location" placeholder="Location" />
+          <Field name="price" label="Price" placeholder="00.00" />
         </Fields>
         <CreateForm
           title="New Product"
@@ -138,7 +145,7 @@ export const Products = () => {
           title="Product Update"
           message="Update Product"
           trigger="Update"
-          onSubmit={(product) => service.update(product)}
+          onSubmit={(product) =>{service.update(product); window.location.reload();}}
           submitText="Update"
           validate={validation}
         />
@@ -147,7 +154,7 @@ export const Products = () => {
           title="Product Delete"
           message="Are you sure you want to delete this Product"
           trigger="Delete"
-          onSubmit={(product) => service.delete(product)}
+          onSubmit={(product) => {service.delete(product); window.location.reload();}}
           submitText="Delete"
           validate={(values) => {
             const errors = {};
@@ -158,7 +165,10 @@ export const Products = () => {
           }}
         />
       </CRUDTable>
+      }
     </div>
   );
 };
+
+
 
