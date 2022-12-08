@@ -10,7 +10,7 @@
   height: 2px;
   max-width: 100%;
   padding: 0;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto auto;
 }
 .footer {
   text-align: center;
@@ -18,7 +18,7 @@
   padding: 1rem;
   margin: 0;
 }
-ul {
+.lista {
   background-color: rgba(0, 0, 0, 0.292);
   color: white;
   border-radius: 10px;
@@ -29,4 +29,21 @@ body {
 }
 .body {
   color: rgb(0, 0, 0);
+}
+.last {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  padding: 1rem;
+  margin: 0;
+}
+.vl {
+  border-left: 6px solid rgb(0, 0, 0);
+  height: 500px;
+}
+.title-faq {
+  text-align: center;
+  color: rgb(255, 255, 255) !important;
+  padding: 2rem;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.329);
 }
