@@ -6,7 +6,7 @@
   height: 100%;
   text-align: center;
 }
-.crud-modal-wrapper__background {
+.crud-modal-wrapper__background { 
   background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   left: 0;
@@ -115,21 +115,21 @@
 }
 
 .crud-button--primary {
-  background-color: #2185d0;
+  background-color: #609EA0;
 }
 
 .crud-button--primary:hover {
-  background-color: #1a6fb1;
+  background-color: #609EA0;
   transition: all 1s;
 }
 
 .crud-button--positive {
-  background-color: #21d05b;
+  background-color: #609EA0;
   text-align: center;
 }
 
 .crud-button--positive:hover {
-  background-color: #1da54a;
+  background-color: #609EA0;
   transition: all 1s;
 }
 
@@ -151,7 +151,7 @@
 
 .crud-table__header-cell {
   cursor: pointer;
-  background: rgba(2, 71, 132, 0.778);
+  background: rgba(0, 0, 0, 0.778);
   padding: 0.5rem 1rem;
   color: rgb(255, 255, 255);
   border-left: 1px solid rgba(34, 36, 38, 0.1);
