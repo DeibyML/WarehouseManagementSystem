@@ -50,7 +50,7 @@ export const updateOrder =  async (req, res) =>{
             status:req.body.status,
             total:req.body.total,
             clientName:req.body.idClient,
-            products:[products]
+            products:[req.body.products]
           }).exec().then((orderUpdated) =>{
             return res.status(200).json({
                 'success': true,
