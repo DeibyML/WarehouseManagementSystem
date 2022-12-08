@@ -128,6 +128,7 @@ export const NewOrder = ({ show, close, newId, getOrders }: NewOrderProps) => {
          clientName: customer,
          products: productsAdded.map(prod => {
             return ({
+               id:prod.id,
                name: prod.product,
                quantity: prod.quantity,
             })
