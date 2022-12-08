@@ -21,7 +21,7 @@ export type ProductsAdded = {
    _id: string;
    value: string;
    maxQuantity: number;
-   id: string;
+   id: number;
 }
 
 export const NewOrder = ({ show, close, newId, getOrders }: NewOrderProps) => {
@@ -128,6 +128,7 @@ export const NewOrder = ({ show, close, newId, getOrders }: NewOrderProps) => {
          clientName: customer,
          products: productsAdded.map(prod => {
             return ({
+               id: prod.id,
                name: prod.product,
                quantity: prod.quantity,
             })

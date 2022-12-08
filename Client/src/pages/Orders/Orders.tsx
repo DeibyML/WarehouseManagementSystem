@@ -29,15 +29,20 @@ export const Orders = () => {
   }, []);
 
   // Assing new Id random
-  let newId: number = Math.floor(Math.random() * 1000);
+  let newId: number = orders?.length == 0 ? 1 : Math.floor(Math.random() * 1000);
 
   // In case to be able to calculate next id, it adds +1 from the last item.
   if (!!Number(orders[orders.length - 1]?.id)) {
     newId = Number(orders[orders.length - 1]?.id) + 1;
   }
 
-  let removeOrder = (id: number) => {
-    return toast(id.toString());
+  let updateOrder = async (order: any) => {
+    let newOrder = {...order, status: 'Finished'}
+
+   const response = await axios.put(Constants.SERVER_URL + Constants.CONTROLLER_ORDER, newOrder);
+   if (response?.data?.success || response.statusText == 'statusText') {
+      getOrders();
+   }
   };
   return (
     <div>
@@ -95,8 +100,8 @@ export const Orders = () => {
                       </Row>
                     </Card.Body>
                     <Card.Footer>
-                      <Card.Link style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faPen} size="xs" /> Update</Card.Link>
-                      <Card.Link onClick={() => removeOrder(order.id)} style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faCheckCircle} size="xs" /> Finished </Card.Link>
+                      <Card.Link onClick={() => updateOrder(order)} style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faCheckCircle} size="xs" /> Marks as done</Card.Link>
+                      {/* <Card.Link  style={{ cursor: 'pointer' }}><FontAwesomeIcon icon={faCheckCircle} size="xs" /> Finished </Card.Link> */}
                     </Card.Footer>
                   </Card.Body>
                 </Card>
