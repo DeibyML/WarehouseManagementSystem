@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  server:
+    image: webapp-api
+    restart: always
+    build: ./server
+    container_name: node_server_container
+    depends_on:
+      - mongodb
+    ports:
+      - 4000:4000
+    volumes:
+      - ./server:/app
+      - /server/node_modules
+    links:
+      - client
+    command: npm start
+    networks:
+        - webappnetwork
+  client:
+    image: webapp-client
+    restart: always
+    build: ./client
+    container_name: client_container
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src
+      - /client/node_modules
+    links:
+      - server
+    command: npm start
+    networks:
+        - webappnetwork
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb_container
+    volumes:
+        - ./data-node:/data/db
+    ports:
+        - 27017:27017
+    command: mongod --noauth --smallfiles
+    networks:
+        - webappnetwork
+networks:
+   webappnetwork:
+      driver: bridge
+  
+
+
+    
